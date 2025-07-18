@@ -1,10 +1,11 @@
 import React from 'react';
+import Login from './components/Login';
 
 function App() {
 	return (
-		<div className="bg-red-600 border border-[yellow]">
-			Tailwind está funcionando!
-		</div>
+		<section className="w-full h-[100dvh] flex items-center justify-center">
+			<Login />
+		</section>
 	);
 }
 
