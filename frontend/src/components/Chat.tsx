@@ -42,7 +42,7 @@ const Chat = ({
 		<section className="w-full h-full flex-col">
 			<header className="p-4 flex justify-between items-center bg-[#1e1e1e] text-white sticky top-0 z-10">
 				<h2 className="text-lg font-semibold">
-					Seja bem vindo, {userName}!
+					Seja bem vindo(a), {userName}!
 				</h2>
 				<button
 					onClick={onLogout}
