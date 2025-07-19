@@ -5,12 +5,17 @@ import Chat from './components/Chat';
 
 function App() {
 	const [userName, setUserName] = useState<string>(
-		() => localStorage.getItem('userName') || ''
+		() => localStorage.getItem('user_name') || ''
 	);
 
 	const handleLogin = (username: string) => {
 		console.log('Usuário logado', userName);
 		setUserName(username);
+		localStorage.setItem('user_name', username);
+	};
+
+	const handleLogout = () => {
+		setUserName('');
 	};
 
 	return (
@@ -18,7 +23,7 @@ function App() {
 			{!userName ? (
 				<Login onLogin={handleLogin} />
 			) : (
-				<Chat userName={userName} />
+				<Chat userName={userName} onLogout={handleLogout} />
 			)}
 		</section>
 	);

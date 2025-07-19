@@ -16,7 +16,13 @@ const initialMessages = [
 	{ id: 3, text: 'Tranquilo por aqui!', isMe: false, sender: 'João' },
 ];
 
-const Chat = ({ userName }: { userName: string }) => {
+const Chat = ({
+	userName,
+	onLogout,
+}: {
+	userName: string;
+	onLogout: () => void;
+}) => {
 	const [messages, setMessages] = useState(initialMessages);
 
 	const handleSendMessage = (text: string) => {
@@ -26,7 +32,7 @@ const Chat = ({ userName }: { userName: string }) => {
 			id: messages.length + 1,
 			text,
 			isMe: true,
-			sender: 'Você',
+			sender: userName,
 		};
 
 		setMessages((prev) => [newMessage, ...prev]);
@@ -34,6 +40,18 @@ const Chat = ({ userName }: { userName: string }) => {
 
 	return (
 		<section className="w-full h-full flex-col">
+			<header className="p-4 flex justify-between items-center bg-[#1e1e1e] text-white sticky top-0 z-10">
+				<h2 className="text-lg font-semibold">
+					Seja bem vindo, {userName}!
+				</h2>
+				<button
+					onClick={onLogout}
+					className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 transition"
+				>
+					Trocar usuário
+				</button>
+			</header>
+
 			<div className="flex-1 overflow-y-auto flex flex-col-reverse pt-[10px] pb-[100px] [&::-webkit-scrollbar]:hidden">
 				<MessageList messages={messages} />
 			</div>
