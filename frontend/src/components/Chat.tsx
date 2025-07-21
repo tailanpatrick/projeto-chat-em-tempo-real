@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Form from './Form';
 import MessageList from './MessageList';
+import { User } from '../types/User';
 
 const initialMessages = [
 	{ id: 1, text: 'Oi, tudo bem?', isMe: false, sender: 'João' },
@@ -16,13 +17,7 @@ const initialMessages = [
 	{ id: 3, text: 'Tranquilo por aqui!', isMe: false, sender: 'João' },
 ];
 
-const Chat = ({
-	userName,
-	onLogout,
-}: {
-	userName: string;
-	onLogout: () => void;
-}) => {
+const Chat = ({ user, onLogout }: { user: User; onLogout: () => void }) => {
 	const [messages, setMessages] = useState(initialMessages);
 
 	const handleSendMessage = (text: string) => {
@@ -32,7 +27,7 @@ const Chat = ({
 			id: messages.length + 1,
 			text,
 			isMe: true,
-			sender: userName,
+			sender: user.name,
 		};
 
 		setMessages((prev) => [newMessage, ...prev]);
@@ -41,9 +36,7 @@ const Chat = ({
 	return (
 		<section className="w-full h-full flex-col">
 			<header className="p-4 flex justify-between items-center bg-[#1e1e1e] text-white sticky top-0 z-10">
-				<h2 className="text-lg font-semibold">
-					Seja bem vindo(a), {userName}!
-				</h2>
+				<h2 className="text-lg font-semibold">Olá, {user.name}!</h2>
 				<button
 					onClick={onLogout}
 					className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 transition"

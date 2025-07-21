@@ -2,28 +2,41 @@ import React, { useEffect, useState } from 'react';
 import Login from './components/Login';
 import Form from './components/Form';
 import Chat from './components/Chat';
+import { User } from './types/User';
+import { getRandomColors } from './colors';
 
 function App() {
-	const [userName, setUserName] = useState<string>(
-		() => localStorage.getItem('user_name') || ''
-	);
-
+	const [user, setUser] = useState<User | null>(() => {
+		try {
+			const saved = localStorage.getItem('user');
+			return saved ? (JSON.parse(saved) as User) : null;
+		} catch (error) {
+			console.error('Erro ao carregar usuário:', error);
+			return null;
+		}
+	});
 	const handleLogin = (username: string) => {
-		console.log('Usuário logado', userName);
-		setUserName(username);
-		localStorage.setItem('user_name', username);
+		const userObj: User = {
+			id: crypto.randomUUID(),
+			name: username,
+			color: getRandomColors(),
+		};
+		setUser(userObj);
+		localStorage.setItem('user', JSON.stringify(userObj));
+
+		console.log('Usuário logado', userObj);
 	};
 
 	const handleLogout = () => {
-		setUserName('');
+		setUser(null);
 	};
 
 	return (
 		<section className="w-full h-[100dvh] flex items-center justify-center">
-			{!userName ? (
+			{!user ? (
 				<Login onLogin={handleLogin} />
 			) : (
-				<Chat userName={userName} onLogout={handleLogout} />
+				<Chat user={user} onLogout={handleLogout} />
 			)}
 		</section>
 	);
