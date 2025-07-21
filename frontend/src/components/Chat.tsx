@@ -3,21 +3,87 @@ import Form from './Form';
 import MessageList from './MessageList';
 import { User } from '../types/User';
 
-const initialMessages = [
-	{ id: 1, text: 'Oi, tudo bem?', isMe: false, sender: 'João' },
-	{ id: 2, text: 'Tudo certo e você?', isMe: true, sender: 'Você' },
-	{ id: 4, text: 'Ótimo saber!', isMe: true, sender: 'Você' },
-	{ id: 4, text: 'Ótimo saber!', isMe: true, sender: 'Você' },
-	{ id: 4, text: 'Ótimo saber!', isMe: true, sender: 'Você' },
-	{ id: 4, text: 'Ótimo saber!', isMe: true, sender: 'Você' },
-	{ id: 4, text: 'Ótimo saber!', isMe: true, sender: 'Você' },
-	{ id: 3, text: 'Tranquilo por aqui!', isMe: false, sender: 'João' },
-	{ id: 3, text: 'Tranquilo por aqui!', isMe: false, sender: 'João' },
-	{ id: 3, text: 'Tranquilo por aqui!', isMe: false, sender: 'João' },
-	{ id: 3, text: 'Tranquilo por aqui!', isMe: false, sender: 'João' },
-];
-
 const Chat = ({ user, onLogout }: { user: User; onLogout: () => void }) => {
+	const initialMessages = [
+		{
+			id: 1,
+			text: 'Oi, tudo bem?',
+			isMe: false,
+			sender: 'João',
+			color: user.color,
+		},
+		{
+			id: 2,
+			text: 'Tudo certo e você?',
+			isMe: true,
+			sender: user.name,
+			color: user.color,
+		},
+		{
+			id: 4,
+			text: 'Ótimo saber!',
+			isMe: true,
+			sender: user.name,
+			color: user.color,
+		},
+		{
+			id: 4,
+			text: 'Ótimo saber!',
+			isMe: true,
+			sender: user.name,
+			color: user.color,
+		},
+		{
+			id: 4,
+			text: 'Ótimo saber!',
+			isMe: true,
+			sender: user.name,
+			color: user.color,
+		},
+		{
+			id: 4,
+			text: 'Ótimo saber!',
+			isMe: true,
+			sender: user.name,
+			color: user.color,
+		},
+		{
+			id: 4,
+			text: 'Ótimo saber!',
+			isMe: true,
+			sender: user.name,
+			color: user.color,
+		},
+		{
+			id: 3,
+			text: 'Tranquilo por aqui!',
+			isMe: false,
+			sender: 'João',
+			color: user.color,
+		},
+		{
+			id: 3,
+			text: 'Tranquilo por aqui!',
+			isMe: false,
+			sender: 'João',
+			color: user.color,
+		},
+		{
+			id: 3,
+			text: 'Tranquilo por aqui!',
+			isMe: false,
+			sender: 'João',
+			color: user.color,
+		},
+		{
+			id: 3,
+			text: 'Tranquilo por aqui!',
+			isMe: false,
+			sender: 'João',
+			color: user.color,
+		},
+	];
+
 	const [messages, setMessages] = useState(initialMessages);
 
 	const handleSendMessage = (text: string) => {
@@ -28,6 +94,7 @@ const Chat = ({ user, onLogout }: { user: User; onLogout: () => void }) => {
 			text,
 			isMe: true,
 			sender: user.name,
+			color: user.color,
 		};
 
 		setMessages((prev) => [newMessage, ...prev]);
