@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Login from './components/Login';
-import Form from './components/Form';
 import Chat from './components/Chat';
 import { User } from './types/User';
 import { getRandomColors } from './colors';
