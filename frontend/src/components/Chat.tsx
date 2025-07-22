@@ -30,7 +30,6 @@ const Chat = ({ user, onLogout, socket }: ChatProps) => {
 			color: user.color,
 		};
 
-		setMessages((prev) => [...prev, newMessage]);
 		socket?.send(JSON.stringify(newMessage));
 	};
 
