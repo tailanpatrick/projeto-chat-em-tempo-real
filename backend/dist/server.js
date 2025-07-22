@@ -7,11 +7,13 @@ const wss = new WebSocketServer({ port, host: '0.0.0.0' }, () => {
 });
 wss.on('connection', (ws) => {
     ws.on('message', (data) => {
+        console.log(data.toLocaleString());
         wss.clients.forEach((client) => {
             client.send(data.toString());
         });
         ws.send(data);
     });
+    console.log('client connected');
 });
 wss.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
