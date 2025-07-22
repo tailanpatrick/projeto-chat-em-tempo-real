@@ -1,27 +1,29 @@
 import React from 'react';
 import Message from './Message';
+import { User } from '../types/User';
 
-interface MessageType {
+export interface Message {
 	id: number;
 	text: string;
-	sender: string;
+	user: User;
 	color: string;
-	isMe: boolean;
+	isMe?: boolean;
 }
 
 interface MessageListProps {
-	messages: MessageType[];
+	messages: Message[];
+	loggedUser: User;
 }
 
-const MessageList: React.FC<MessageListProps> = ({ messages }) => {
+const MessageList: React.FC<MessageListProps> = ({ messages, loggedUser }) => {
 	return (
-		<div className="flex flex-col space-y-4 px-[30px] pt-[30px] pb-[20px]">
-			{messages.map(({ id, text, sender, isMe, color }) => (
+		<div className="flex flex-col justify-end space-y-4 px-6 pt-6 pb-4 h-full jus overflow-y-auto max-h-[calc(100vh-150px)]">
+			{messages.map(({ id, text, user, color }) => (
 				<Message
 					key={id}
 					text={text}
-					sender={sender}
-					isMe={isMe}
+					sender={user.name}
+					isMe={user.id === loggedUser.id}
 					color={color}
 				/>
 			))}
