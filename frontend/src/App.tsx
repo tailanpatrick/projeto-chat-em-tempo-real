@@ -15,18 +15,18 @@ function App() {
 			return null;
 		}
 	});
+	const [socketReady, setSocketReady] = useState(false);
 
 	const ws = useRef<WebSocket | null>(null);
 
 	useEffect(() => {
 		if (!user) return;
 
-		const socket = new WebSocket(
-			process.env.WEB_SOCKET_SERVER_URL as string
-		);
+		const socket = new WebSocket('ws://192.168.100.175:3001');
 
 		socket.onopen = () => {
 			console.log('✅ Socket conectado');
+			setSocketReady(true);
 		};
 
 		socket.onerror = (err) => {
@@ -60,8 +60,10 @@ function App() {
 		<section className="w-full h-[100dvh] flex items-center justify-center overflow-hidden">
 			{!user ? (
 				<Login onLogin={handleLogin} />
-			) : (
+			) : socketReady ? (
 				<Chat user={user} onLogout={handleLogout} socket={ws.current} />
+			) : (
+				<div className="text-white">Conectando ao chat...</div>
 			)}
 		</section>
 	);
