@@ -69,12 +69,13 @@ const Chat = ({ user, onLogout, socket }: ChatProps) => {
 				</button>
 			</header>
 
-			{/* AQUI ESTÁ A ALTERAÇÃO: AUMENTE O pb-[...] */}
 			<div className="flex-1 overflow-y-auto flex flex-col justify-end pt-[10px] pb-[100px] [&::-webkit-scrollbar]:hidden">
 				{' '}
-				{/* MUDANÇA: pb-[150px] para pb-[200px] */}
-				<MessageList messages={messages} loggedUser={user} />
-				<div ref={messagesEndRef} />
+				<MessageList
+					messages={messages}
+					loggedUser={user}
+					bottomRef={messagesEndRef}
+				/>
 			</div>
 
 			<div className="shrink-0">

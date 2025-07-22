@@ -21,7 +21,9 @@ function App() {
 	useEffect(() => {
 		if (!user) return;
 
-		const socket = new WebSocket('ws://localhost:3001');
+		const socket = new WebSocket(
+			process.env.WEB_SOCKET_SERVER_URL as string
+		);
 
 		socket.onopen = () => {
 			console.log('✅ Socket conectado');

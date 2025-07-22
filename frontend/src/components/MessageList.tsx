@@ -13,9 +13,14 @@ export interface Message {
 interface MessageListProps {
 	messages: Message[];
 	loggedUser: User;
+	bottomRef: React.RefObject<HTMLDivElement | null>;
 }
 
-const MessageList: React.FC<MessageListProps> = ({ messages, loggedUser }) => {
+const MessageList: React.FC<MessageListProps> = ({
+	messages,
+	loggedUser,
+	bottomRef,
+}) => {
 	return (
 		<div className="flex flex-col space-y-4 px-6 pt-6 pb-4 overflow-auto">
 			{messages.map(({ id, text, user, color }) => (
@@ -27,6 +32,8 @@ const MessageList: React.FC<MessageListProps> = ({ messages, loggedUser }) => {
 					color={color}
 				/>
 			))}
+
+			<div ref={bottomRef} />
 		</div>
 	);
 };
