@@ -1,26 +1,28 @@
+// server.ts
 import { WebSocketServer } from 'ws';
 import dotenv from 'dotenv';
 dotenv.config();
 const port = Number(process.env.PORT) || 3001;
-const wss = new WebSocketServer({ port, host: '0.0.0.0' }, () => {
+const wss = new WebSocketServer({ port }, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
 wss.on('connection', (ws) => {
+    console.log('Cliente conectado');
     ws.on('message', (data) => {
-        console.log(data.toLocaleString());
+        let messageJson;
+        try {
+            messageJson = JSON.parse(data.toString());
+            console.log('Mensagem recebida:', messageJson);
+        }
+        catch (err) {
+            console.error('Erro ao converter JSON:', err);
+            return;
+        }
+        // Reenvia para todos os clientes conectados
         wss.clients.forEach((client) => {
-            client.send(data.toString());
+            if (client.readyState === ws.OPEN) {
+                client.send(JSON.stringify(messageJson));
+            }
         });
-        ws.send(data);
     });
-    console.log('client connected');
-});
-wss.on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-        console.error(`Porta ${port} já está em uso.`);
-        process.exit(1);
-    }
-    else {
-        console.error(err);
-    }
 });
