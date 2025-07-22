@@ -10,7 +10,10 @@ interface MessageProps {
 const Message: React.FC<MessageProps> = ({ text, sender, isMe, color }) => {
 	return (
 		<div className={`flex flex-col ${isMe ? 'items-start' : 'items-end'}`}>
-			<span className={`text-md font-semibold mb-1 text-${color}`}>
+			<span
+				className="text-md font-semibold mb-1"
+				style={{ color: color }}
+			>
 				{!isMe && sender}
 			</span>
 			<div
