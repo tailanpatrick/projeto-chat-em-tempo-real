@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'; // Importe useRef
+import React, { useEffect, useState, useRef } from 'react';
 import Form from './Form';
 import MessageList from './MessageList';
 import { User } from '../types/User';
@@ -18,7 +18,7 @@ interface Message {
 
 const Chat = ({ user, onLogout, socket }: ChatProps) => {
 	const [messages, setMessages] = useState<Message[]>([]);
-	const messagesEndRef = useRef<HTMLDivElement>(null); // Ref para rolar até o final
+	const messagesEndRef = useRef<HTMLDivElement>(null);
 
 	const handleSendMessage = (text: string) => {
 		if (!text.trim()) return;
@@ -30,9 +30,7 @@ const Chat = ({ user, onLogout, socket }: ChatProps) => {
 			color: user.color,
 		};
 
-		// Crucial: Adiciona a nova mensagem AO FINAL do array
 		setMessages((prev) => [...prev, newMessage]);
-
 		socket?.send(JSON.stringify(newMessage));
 	};
 
@@ -40,32 +38,27 @@ const Chat = ({ user, onLogout, socket }: ChatProps) => {
 		if (!socket) return;
 
 		const handleSocketMessage = (event: MessageEvent) => {
-			// Renomeada para clareza
 			try {
 				const receivedMessage: Message = JSON.parse(event.data);
-				// Crucial: Adiciona a mensagem recebida AO FINAL do array
 				setMessages((prev) => [...prev, receivedMessage]);
 			} catch (error) {
 				console.error('Erro ao processar mensagem', error);
 			}
 		};
 
-		// Anexa o event listener corretamente
 		socket.addEventListener('message', handleSocketMessage);
 
-		// Função de limpeza para remover o listener quando o componente desmontar ou o socket mudar
 		return () => {
 			socket.removeEventListener('message', handleSocketMessage);
 		};
-	}, [socket]); // Dependência no 'socket'
+	}, [socket]);
 
-	// Rola para o final sempre que as mensagens mudam
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-	}, [messages]); // Disparado quando o array 'messages' é atualizado
+	}, [messages]);
 
 	return (
-		<section className="w-full h-full flex-col">
+		<section className="w-full h-full flex flex-col">
 			<header className="p-4 flex justify-between items-center bg-[#1e1e1e] text-white sticky top-0 z-10">
 				<h2 className="text-lg font-semibold">Olá, {user.name}!</h2>
 				<button
@@ -76,13 +69,11 @@ const Chat = ({ user, onLogout, socket }: ChatProps) => {
 				</button>
 			</header>
 
-			{/* Contêiner para as mensagens:
-                - flex flex-col: Empilha as mensagens de cima para baixo.
-                - justify-end: Alinha o conteúdo à parte inferior quando há espaço extra.
-            */}
-			<div className="flex-1 overflow-y-auto flex flex-col h-full justify-end pt-[10px] pb-[100px] [&::-webkit-scrollbar]:hidden">
+			{/* AQUI ESTÁ A ALTERAÇÃO: AUMENTE O pb-[...] */}
+			<div className="flex-1 overflow-y-auto flex flex-col justify-end pt-[10px] pb-[100px] [&::-webkit-scrollbar]:hidden">
+				{' '}
+				{/* MUDANÇA: pb-[150px] para pb-[200px] */}
 				<MessageList messages={messages} loggedUser={user} />
-				{/* Elemento para rolar para a visualização, posicionado no final */}
 				<div ref={messagesEndRef} />
 			</div>
 

@@ -17,7 +17,7 @@ interface MessageListProps {
 
 const MessageList: React.FC<MessageListProps> = ({ messages, loggedUser }) => {
 	return (
-		<div className="flex flex-col justify-end space-y-4 px-6 pt-6 pb-4 h-full jus overflow-y-auto max-h-[calc(100vh-150px)]">
+		<div className="flex flex-col space-y-4 px-6 pt-6 pb-4 overflow-auto">
 			{messages.map(({ id, text, user, color }) => (
 				<Message
 					key={id}
