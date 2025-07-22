@@ -23,9 +23,9 @@ const MessageList: React.FC<MessageListProps> = ({
 }) => {
 	return (
 		<div className="flex flex-col space-y-4 px-6 pt-6 pb-4 overflow-auto">
-			{messages.map(({ id, text, user, color }) => (
+			{messages.map(({ id, text, user, color }, index) => (
 				<Message
-					key={id}
+					key={index}
 					text={text}
 					sender={user.name}
 					isMe={user.id === loggedUser.id}
