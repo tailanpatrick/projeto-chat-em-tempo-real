@@ -45,7 +45,7 @@ function App() {
 	const handleLogin = (username: string) => {
 		const userObj: User = {
 			id: uuidv4(),
-			name: username,
+			name: username.trim(),
 			color: getRandomColors(),
 		};
 		setUser(userObj);
