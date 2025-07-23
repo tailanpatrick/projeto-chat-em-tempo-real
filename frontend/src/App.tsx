@@ -22,7 +22,9 @@ function App() {
 	useEffect(() => {
 		if (!user) return;
 
-		const socket = new WebSocket('ws://192.168.100.175:3001');
+		const socket = new WebSocket(
+			'wss://backend-chat-em-tempo-real.onrender.com'
+		);
 
 		socket.onopen = () => {
 			console.log('✅ Socket conectado');
