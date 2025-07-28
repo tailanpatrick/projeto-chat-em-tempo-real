@@ -1,16 +1,38 @@
-import mongoose from 'mongoose';
+import mongoose, { Mongoose } from 'mongoose';
 
-const MONGODB_URI =
-	process.env.MONGODB_URI ||
-	'mongodb+srv://tailanpatrick06:BMl4fIV3Sei8ZMdi@cluster0.luy4ny9.mongodb.net/';
+let cachedDb: Mongoose | null = null;
 
-mongoose.connect(MONGODB_URI);
+const connectDB = async (): Promise<Mongoose> => {
+	if (cachedDb) {
+		console.log('Utilizando conexão MongoDB em cache.');
+		return cachedDb;
+	}
 
-const db = mongoose.connection;
+	try {
+		const MONGODB_URI = process.env.MONGODB_URI as string;
 
-db.on('error', console.error.bind(console, 'Erro na conexão com o MongoDB:'));
-db.once('open', () => {
-	console.log('Conectado ao MongoDB');
-});
+		if (!MONGODB_URI) {
+			throw new Error(
+				'A variável de ambiente MONGODB_URI não está definida.'
+			);
+		}
 
-export default mongoose;
+		console.log(
+			'Tentando conectar ao MongoDB com URI (parcialmente oculta):',
+			MONGODB_URI.substring(0, MONGODB_URI.indexOf('@') + 1) + '...'
+		);
+
+		const conn = await mongoose.connect(MONGODB_URI, {
+			serverSelectionTimeoutMS: 15000,
+		});
+
+		cachedDb = conn;
+		console.log('MongoDB Conectado com sucesso!');
+		return conn;
+	} catch (error: any) {
+		console.error('Erro na conexão com o MongoDB:', error.message);
+		process.exit(1);
+	}
+};
+
+export default connectDB;
