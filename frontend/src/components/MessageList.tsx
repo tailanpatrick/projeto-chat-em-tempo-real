@@ -3,7 +3,7 @@ import Message from './Message';
 import { User } from '../types/User';
 
 export interface Message {
-	id: number;
+	id: string;
 	text: string;
 	user: User;
 	color: string;

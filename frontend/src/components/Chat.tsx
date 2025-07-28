@@ -1,19 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Form from './Form';
-import MessageList from './MessageList';
+import MessageList, { Message } from './MessageList';
 import { User } from '../types/User';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ChatProps {
 	user: User;
 	onLogout: () => void;
 	socket: WebSocket | null;
-}
-
-interface Message {
-	id: number;
-	text: string;
-	user: User;
-	color: string;
 }
 
 const Chat = ({ user, onLogout, socket }: ChatProps) => {
@@ -24,7 +18,7 @@ const Chat = ({ user, onLogout, socket }: ChatProps) => {
 		if (!text.trim()) return;
 
 		const newMessage: Message = {
-			id: messages.length + 1,
+			id: uuidv4(),
 			text,
 			user: user,
 			color: user.color,
