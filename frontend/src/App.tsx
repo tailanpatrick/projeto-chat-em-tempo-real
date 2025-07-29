@@ -22,9 +22,11 @@ function App() {
 	useEffect(() => {
 		if (!user) return;
 
-		const websocketUrl = process.env.REACT_APP_WEBSOCKET_URL as string;
+		if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+			ws.current.close();
+		}
 
-		const socket = new WebSocket(websocketUrl);
+		const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL!);
 
 		socket.onopen = () => {
 			console.log('✅ Socket conectado');
@@ -40,6 +42,11 @@ function App() {
 		};
 
 		ws.current = socket;
+
+		return () => {
+			socket.close();
+			setSocketReady(false);
+		};
 	}, [user]);
 
 	const handleLogin = (username: string) => {
@@ -48,8 +55,9 @@ function App() {
 			name: username.trim(),
 			color: getRandomColors(),
 		};
-		setUser(userObj);
+
 		localStorage.setItem('user', JSON.stringify(userObj));
+		setUser(userObj);
 	};
 
 	const handleLogout = () => {

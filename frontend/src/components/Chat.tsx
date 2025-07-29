@@ -16,7 +16,7 @@ const Chat = ({ user, onLogout, socket }: ChatProps) => {
 
 	const fetchMessages = async () => {
 		const API_BASE_URL = process.env.REACT_APP_API_BASE_URL as string;
-		console.log(API_BASE_URL);
+
 		try {
 			const response = await fetch(`${API_BASE_URL}/messages`);
 			if (!response.ok) {
