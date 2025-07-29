@@ -29,7 +29,7 @@ const MessageList: React.FC<MessageListProps> = ({
 					text={text}
 					sender={user.name}
 					isMe={user.id === loggedUser.id}
-					color={color}
+					color={user.color}
 				/>
 			))}
 
