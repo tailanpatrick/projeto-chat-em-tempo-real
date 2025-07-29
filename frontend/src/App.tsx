@@ -22,9 +22,9 @@ function App() {
 	useEffect(() => {
 		if (!user) return;
 
-		const socket = new WebSocket(
-			'wss://backend-chat-em-tempo-real.onrender.com'
-		);
+		const websocketUrl = process.env.REACT_APP_WEBSOCKET_URL as string;
+
+		const socket = new WebSocket(websocketUrl);
 
 		socket.onopen = () => {
 			console.log('✅ Socket conectado');
