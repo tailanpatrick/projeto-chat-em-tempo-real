@@ -21,7 +21,7 @@ connectDB()
 
 		app.use(
 			cors({
-				origin: 'https://frontend-chat-em-tempo-real.vercel.app',
+				origin: ['https://frontend-chat-em-tempo-real.vercel.app', 'http://localhost:3000'],
 			})
 		);
 		app.use(express.json());
