@@ -14,6 +14,21 @@ const Chat = ({ user, onLogout, socket }: ChatProps) => {
 	const [messages, setMessages] = useState<Message[]>([]);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
+	const fetchMessages = async () => {
+		const API_BASE_URL = process.env.REACT_APP_API_BASE_URL as string;
+		console.log(API_BASE_URL);
+		try {
+			const response = await fetch(`${API_BASE_URL}/messages`);
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data: Message[] = await response.json();
+			setMessages(data);
+		} catch (error) {
+			console.error('Erro ao carregar mensagens:', error);
+		}
+	};
+
 	const handleSendMessage = (text: string) => {
 		if (!text.trim()) return;
 
@@ -49,6 +64,10 @@ const Chat = ({ user, onLogout, socket }: ChatProps) => {
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 	}, [messages]);
+
+	useEffect(() => {
+		fetchMessages(); // Chama a função para buscar mensagens
+	}, []);
 
 	return (
 		<section className="w-full h-full flex flex-col">
