@@ -17,7 +17,7 @@ const Message: React.FC<MessageProps> = ({ text, sender, isMe, color }) => {
 				{!isMe && sender}
 			</span>
 			<div
-				className={`relative min-w-max max-w-[250px] p-[10px] text-[0.8rem] leading-[22px] font-medium rounded-[10px] ${
+				className={`relative w-fit max-w-[250px] break-words p-[10px] text-[0.8rem] leading-[22px] font-medium rounded-[10px] whitespace-pre-wrap ${
 					isMe
 						? 'bg-[#d1ffd6] text-[#121212] ml-2'
 						: 'bg-[#f2f2f2] text-[#121212] mr-2'
