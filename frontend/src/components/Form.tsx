@@ -23,18 +23,25 @@ const Form = ({ isChat, onSubmit }: FormProps) => {
 					: 'flex flex-col gap-4'
 			}
 		>
-			<input
-				type="text"
-				placeholder={isChat ? 'Digite uma mensagem' : 'Digite seu nome'}
-				required
-				value={inputValue}
-				onChange={(e) => setInputValue(e.target.value)}
-				className={
-					isChat
-						? 'border-none p-[15px] rounded-lg flex-1 bg-[#212121] outline-none text-[#f2f2f2] text-[1rem]'
-						: 'border-none p-4 text-[0.85rem] font-semibold bg-[#121212] outline-none rounded-md focus:outline-[gray] focus:outline-2'
-				}
-			/>
+			{isChat ? (
+				<textarea
+					placeholder="Digite uma mensagem"
+					required
+					value={inputValue}
+					onChange={(e) => setInputValue(e.target.value)}
+					className="resize-none border-none p-[15px] rounded-lg flex-1 bg-[#212121] outline-none text-[#f2f2f2] text-[1rem] max-h-40 overflow-y-auto"
+					rows={1}
+				/>
+			) : (
+				<input
+					type="text"
+					placeholder="Digite seu nome"
+					required
+					value={inputValue}
+					onChange={(e) => setInputValue(e.target.value)}
+					className="border-none p-4 text-[0.85rem] font-semibold bg-[#121212] outline-none rounded-md focus:outline-[gray] focus:outline-2"
+				/>
+			)}
 			<button
 				type="submit"
 				className={`border-none cursor-pointer rounded-md ${
